@@ -2,6 +2,8 @@ import styled from 'styled-components'
 import DeleteIcon from '@mui/icons-material/Delete';
 import Default from '../../../public/Images/defaultImage.jpg';
 import CartButton from './CartButton';
+import { useContext, useReducer } from 'react';
+import { cartContext } from '../../Context/Cart';
 
 const Container = styled.div`
     margin: 20px;
@@ -44,7 +46,14 @@ justify-content: center;
     flex: 1;
 `
 
-export default ({title="titleasdfasdfa",price=100,src=Default})=>{
+export default ({title="titleasdfasdfa",price=100,src=Default,id})=>{
+    const {cart,cartDispatch}= useContext(cartContext);
+    const removeItem = ()=>{
+        cartDispatch({
+            type: "removeFromCart",
+            payload: id, 
+        });
+    }
     return (
     <Container>
         <Img>
@@ -54,8 +63,10 @@ export default ({title="titleasdfasdfa",price=100,src=Default})=>{
             {title}
         </Title>
         <Button>
+            
         <h2>price:{price}</h2>
-            <CartButton><h3>Remove</h3><DeleteIcon/></CartButton>
+            <CartButton handleClick={removeItem}><h3>Remove</h3><DeleteIcon/></CartButton>
         </Button>
+        
     </Container>);
 }

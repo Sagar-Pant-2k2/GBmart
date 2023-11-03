@@ -33,7 +33,7 @@ export default () => {
    
     const cards = items.map((item, index) => {
 
-      console.log(item.id);
+
       return (<ProductCard
       key={item.id}
       id = {item.id}

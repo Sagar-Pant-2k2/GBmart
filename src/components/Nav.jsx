@@ -47,6 +47,7 @@ export default ()=>{
     const navigate = useNavigate();
     const {cart} = useContext(cartContext);
     const [show,setShow] = useState(0);
+    const [login,setLogin] = useState(false);
     return (
     <Container>
         <Left>
@@ -57,9 +58,17 @@ export default ()=>{
             <h1 onClick={()=>{navigate("/")}}>GBmart</h1>
         </Mid>
         <Right>
+            {!login?
             <NavItem onClick={()=>{navigate('/login')}}>
                 <h3>Login</h3>
             </NavItem>
+            :
+
+            <NavItem >
+                <h3>Logout</h3>
+            </NavItem>
+            }
+            
             <NavItem>
 
             <SearchIcon/>

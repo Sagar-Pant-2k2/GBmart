@@ -3,7 +3,7 @@ import styled from "styled-components"
 import Wrapper from "../../components/Wrapper"
 import Card from "./Card"
 import CartButton from "./CartButton"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { cartContext } from "../../Context/Cart"
 import { ItemContext } from "../../Context/Items"
 import EmptyCart from "../../../public/Images/emptyCart.jpg";
@@ -16,9 +16,11 @@ const Container = styled.div`
     align-items: center;
 `
 
+
 export default ()=>{
     const [total,setTotal] = useState(0);
     const {cart,cartDispatch} = useContext(cartContext);
+    
     const {items} = useContext(ItemContext);
     if(cart.length == 0) {
         return <Wrapper><img src={EmptyCart} ></img></Wrapper>
@@ -26,7 +28,7 @@ export default ()=>{
     else {
         const cards = cart.map((id,index)=>{
             const item = items.find(item=>item.id==id);
-            return <Card key={id} title={item.title} price={item.price} src={item.image}onClick={()=>}></Card>
+            return <Card key={id} title={item.title} price={item.price} src={item.image} id={id}></Card>
         });
         console.log("this is cards ",cards);
     

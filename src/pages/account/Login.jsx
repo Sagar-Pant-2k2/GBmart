@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import Wrapper from "../../components/Wrapper";
 import { Link } from 'react-router-dom';
+import { useState } from "react";
+import axios from 'axios';
 
 const Input = styled.input`
     max-width: 450px;
@@ -10,6 +12,7 @@ const Input = styled.input`
     padding: 0px 10px;
     margin: 10px;
 `
+
 const Submit = styled.button`
     max-width: 450px;
     width: 90%;
@@ -20,12 +23,12 @@ const Submit = styled.button`
     background-color: black;
     color: white;
     transition: background-color 0.3s ease; 
-    &:hover{
+    &:hover {
         background-color: #212020;
     }
 `
+
 const Container = styled.div`
-    /* padding: 10px; */
     max-width: 450px;
     width: 90%;
     display: flex;
@@ -33,16 +36,60 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
 `
-export default ()=>{
+
+export default () => {
+    const [email, setEmail] = useState(localStorage.getItem('email')?localStorage.getItem('email'):"");
+    const [password, setPassword] = useState(localStorage.getItem('password')?localStorage.getItem('password'):"");
+
+    const handleLogin = async (e) => {
+        
+        
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/;
+        
+        if (email && emailPattern.test(email) && password) {
+            e.preventDefault(); 
+            try{
+
+                const res = await axios.post('http://localhost:3000/auth/login',{
+                    email,
+                    password
+                });
+                
+
+            }
+            catch(err){
+                console.log(err);
+            }
+
+
+        } 
+      };
+      
+
     return (
         <Wrapper>
             <Container>
-
-            <h2>LOGIN</h2>
-            <Input placeholder="enter email" type="email"></Input>
-            <Input placeholder="password" type="password"></Input>
-            <Submit>Login</Submit>  
-            <p>new to the platform? <Link to="/register">create an account</Link></p>
+                <h2>LOGIN</h2>
+                <form onSubmit={handleLogin}>
+               
+                    <Input
+                        type="email"
+                        placeholder="Enter email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                  
+                    <Input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                    <Submit type="submit" onClick={handleLogin}>Login</Submit>
+                </form>
+                <p>New to the platform? <Link to="/register">Create an account</Link></p>
             </Container>
         </Wrapper>
     )
