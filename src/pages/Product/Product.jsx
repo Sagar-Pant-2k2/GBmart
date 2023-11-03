@@ -1,11 +1,21 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import Default from '../../../public/Images/defaultImage.jpg';
 import './styles.css';
 import {useParams} from 'react-router-dom';
 import { ItemContext } from '../../Context/Items';
 import Wrapper from '../../components/Wrapper'
+import { cartContext } from '../../Context/Cart';
 const Product = () => {
+    const {cart,cartDispatch} = useContext(cartContext);
     const id = useParams().id;
+
+    const handleAdd = () => {
+        cartDispatch({
+            type: "addToCart",
+            payload: id, 
+        });
+    }
+    
     const {items} = useContext(ItemContext);
     console.log(items);
     const product = items.find(item => item.id == id);
@@ -33,7 +43,7 @@ const Product = () => {
                     <h2>Price : {product.price}</h2>
                 </div>
                 
-                    <button><h2>Add To Cart</h2></button>
+                    <button onClick={handleAdd}><h2>Add To Cart</h2></button>
                 
             </div>
         </div>

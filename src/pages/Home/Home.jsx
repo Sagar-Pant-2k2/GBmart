@@ -16,19 +16,7 @@ const Container = styled.div`
 export default () => {
   const { items, setItems } = useContext(ItemContext);
 
-  useEffect(() => {
-    const loadData = async () => {
-     
-      try {
-        const res = await axios.get("https://fakestoreapi.com/products");
-        localStorage.setItem("products", JSON.stringify(res.data));
-        setItems(() => res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    loadData();
-  }, []);
+  
   if (items) {
    
     const cards = items.map((item, index) => {

@@ -2,10 +2,11 @@ import styled from 'styled-components'
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
+import { cartContext } from '../Context/Cart';
 
 const Container = styled.div`
     display: grid;
@@ -44,7 +45,7 @@ const NavItem = styled.div`
 `
 export default ()=>{
     const navigate = useNavigate();
-    const [count,setCount] = useState(0);
+    const {cart} = useContext(cartContext);
     const [show,setShow] = useState(0);
     return (
     <Container>
@@ -65,7 +66,7 @@ export default ()=>{
             </NavItem>
             <NavItem>
 
-            <Badge badgeContent={count} color="primary">
+            <Badge badgeContent={cart.length} color="primary">
 
                 <ShoppingCartIcon onClick={()=>navigate('/cart')}/>
             </Badge>

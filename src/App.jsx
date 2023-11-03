@@ -6,11 +6,26 @@ import Cart from "./pages/Cart/MyCart";
 import Home from "./pages/Home/Home";
 import {Routes,Route,BrowserRouter} from 'react-router-dom';
 import Product from "./pages/Product/Product";
-
+import {CartContextProvider} from "./Context/Cart";
+import { useEffect } from "react";
 export default ()=>{
+  useEffect(() => {
+    const loadData = async () => {
+     
+      try {
+        const res = await axios.get("https://fakestoreapi.com/products");
+        localStorage.setItem("products", JSON.stringify(res.data));
+        setItems(() => res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    loadData();
+  }, []);
   return (
     <>
     <ItemContextProvider>
+    <CartContextProvider>
 
     <BrowserRouter>
     <Nav/>
@@ -23,6 +38,7 @@ export default ()=>{
         <Route path="/product/:id" element={<Product/>}></Route>
       </Routes>
     </BrowserRouter>
+    </CartContextProvider>
     </ItemContextProvider>
     </>
   )
